@@ -1,4 +1,4 @@
-package app;
+package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,7 @@ public class Main extends Application {
      * fenêtre javafx
      * **/
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../app/Window.fxml"));
         primaryStage.setTitle("Mathinator");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

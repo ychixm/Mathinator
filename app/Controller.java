@@ -1,18 +1,17 @@
 package app;
 
-import Calc.Equation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Pair;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.event.ActionEvent;
+import main.Equation;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,7 +32,7 @@ public class Controller implements Initializable{
         storedEquation.getColumns().clear();
         TableColumn<Equation,String> name = new TableColumn<Equation,String>("name");
         TableColumn<Equation,String> expression = new TableColumn<Equation,String>("expression");
-        TableColumn<Equation,Pair> interval = new TableColumn<Equation,Pair>("interval");
+        TableColumn<Equation,String> interval = new TableColumn<Equation,String>("interval");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expression.setCellValueFactory(new PropertyValueFactory<>("expression"));
         interval.setCellValueFactory(new PropertyValueFactory<>("interval"));
@@ -51,8 +50,8 @@ public class Controller implements Initializable{
         draw.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 System.out.println(input.getText());
-                Equation.getEquations().add(new Equation("f","x^2",new Pair<Double, Double>(-2.0,2.0)));
-                Equation.getEquations().add(new Equation("g","x^2",new Pair<Double, Double>(-2.0,2.0)));
+                Equation.getEquations().add(new Equation("x^2","f","-2;2"));
+                Equation.getEquations().add(new Equation("x^2","g","-2,2"));
             }
         });
         store.setOnAction(new EventHandler<ActionEvent>(){
