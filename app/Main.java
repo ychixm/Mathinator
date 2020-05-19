@@ -13,8 +13,8 @@ public class Main extends Application {
      * fenêtre javafx
      * **/
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
-        primaryStage.setTitle("exercice 1");
+        Parent root = FXMLLoader.load(getClass().getResource("Window.fxml"));
+        primaryStage.setTitle("Mathinator");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
