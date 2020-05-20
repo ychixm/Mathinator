@@ -28,7 +28,7 @@ public class Equation {
     public Equation(String equation){
 
         try {
-            String[] expr = parseExpr(expression);
+            String[] expr = parseExpr(equation);
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
@@ -44,7 +44,7 @@ public class Equation {
     //méthode au cas où on a construit un objet vide et qu'on veut le remplir, fonctionne comme le dernier constructeur
     public void addValue(String equation){
         try {
-            String[] expr = parseExpr(expression);
+            String[] expr = parseExpr(equation);
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
@@ -67,6 +67,10 @@ public class Equation {
             return tmp2;
         }
 
+    }
+
+    public static void addEquation(Equation e){
+        equations.add(e);
     }
 
     public static Vector<Equation> getEquations() {
