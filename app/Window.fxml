@@ -21,7 +21,7 @@
                      <children>
                         <Button fx:id="draw" layoutX="37.0" layoutY="56.0" mnemonicParsing="false" text="Draw" />
                         <Button fx:id="store" layoutX="116.0" layoutY="56.0" mnemonicParsing="false" text="Store" />
-                        <LineChart layoutX="244.0" prefHeight="626.0" prefWidth="673.0">
+                        <LineChart fx:id="graph" layoutX="244.0" prefHeight="626.0" prefWidth="673.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
