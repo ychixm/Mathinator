@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Stack;
 import java.util.Vector;
 
 public class Equation {
@@ -69,6 +70,7 @@ public class Equation {
 
     }
 
+
     public static void addEquation(Equation e){
         equations.add(e);
     }
@@ -104,4 +106,65 @@ public class Equation {
     public void setname(String name) {
         this.name = name;
     }
+
+    //calcul des valeurs de l'expression de fonction
+    public Vector<Double> calcFunc() throws IntervalException {
+        //récupération de l'intervalle et du pas
+        // ATTENTION : Tester String vide si rend un tableau vide
+        String tmp = this.interval.replaceAll(" ","");
+        String[] tmp2 = tmp.split(";");
+        Double bornInf = 0.00;
+        Double bornSup = 10.00;
+        Double pas = 1.00 ;
+        //valeurs de l'intervalle avec pas non reconnues, on prendra des valeurs par défaut.
+        if(tmp2.length == 2 || tmp2.length == 3){
+            bornInf = Double.parseDouble(tmp2[0]);
+            bornSup = Double.parseDouble(tmp2[1]);
+            if(tmp2.length == 3){
+                pas = Double.parseDouble(tmp2[2]);
+            }
+
+        }
+        if(bornInf > bornSup){
+            throw new IntervalException();
+        }
+        else if(pas > bornSup - bornInf){
+            throw new IntervalException();
+        }
+        //Le pas et l'intervalle sont set
+
+        //mise en place de la pile pour calculer dans l'ordre
+        Stack<String> pile = new Stack<String>();
+        //fonction de pile :
+        //pile = fonctionPile();
+
+
+
+        //else{
+
+        Vector<Double> valFunc = new Vector<Double>();
+        for (Double i = bornInf; i < bornSup; i = i + pas){
+            valFunc.add(valeurCalc(pile, i));
+        }
+
+        return valFunc;
+
+    }
+
+    //Fonction pour set la pile de calcul des valeurs de la fonction
+    public Stack<String> pileFonction(){
+        Stack<String> pile = new Stack<String>();
+        //faire la pile
+        return pile;
+    }
+
+    public Double valeurCalc(Stack<String> pile, Double val){
+        Double valFinal = 0.00;
+        while(!pile.empty()){
+            //dépiler en remplaçant la variable par val
+         }
+        return valFinal;
+    }
+
+
 }
