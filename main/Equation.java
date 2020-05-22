@@ -54,13 +54,14 @@ public class Equation {
 
     /**
      * @param equation String contenant l'entrée utilisateur.
-     * constructeur utilisant une expression complete
+     * constructeur utilisant une expression complete.
      * */
     public Equation(String equation){
         try {
+            //parsing de l'expression.
             String[] expr = parseExpr(equation);
 
-
+            //test pour savoir si la variable est dans le nom de la fonction : du type f(x).
             if(expr[0].matches("[A-Za-z]*[(][A-Za-z]*[)]")){
 
                 String[] getNewName = expr[0].split("\\(");
@@ -68,11 +69,12 @@ public class Equation {
 
                 this.nomVariable = getNewName[1].replaceAll("\\)", "");
             }
+            //si la variable n'est pas présente, on donne x comme variable par défaut.
             else{
                 this.nomVariable = "x";
             }
 
-
+            //Test du nom, si le nom donné existe déjà, on envoie une exception.
             for(Equation elt : Equation.getEquations()){
                 if(expr[0].equals(elt.getName())){
                     throw new SameNameException();
@@ -92,7 +94,8 @@ public class Equation {
         }
 
 
-        //récupération de l'intervalle et du pas
+        //récupération de l'intervalle et du pas :
+            //valeurs par défaut.
         this.bornInf = 0.00;
         this.bornSup = 10.00;
         this.pas = 1.00 ;
@@ -108,30 +111,27 @@ public class Equation {
                 }
 
             }
+            //exception si les bornes ne sont pas compatibles.
             if(bornInf > bornSup){
                 throw new IntervalException();
             }
+            //exception si le pas n'est pas compatible.
             else if(pas > bornSup - bornInf){
                 throw new IntervalException();
             }
         } catch (IntervalException e) {
             e.printStackTrace();
         }
-        //Le pas et l'intervalle sont set
-
-        //voir si le nom de la variable est entrée ou non
-
-
-
     }
 
     /**
-     * fonction pour parser l'expression de l'équation
-     * l'expression doit être de la forme "name(variable) = expression = born inf;borne sup
+     * fonction pour parser l'expression de l'équation.
+     * l'expression doit être de la forme "name(variable) = expression = born inf;borne sup.
      * */
     private String[] parseExpr (String expr) throws SizeExprException{
         String tmp = expr.replaceAll(" ","");
         String[] tmp2 = tmp.split("=");
+        //si la syntaxe n'est pas bien suivie, on envoie une exception.
         if(tmp2.length !=3){
             throw new SizeExprException();
         }
@@ -140,15 +140,15 @@ public class Equation {
         }
 
     }
+
+
+
     /**
      * Getter de la de l'Objet equation
      * */
+
     public String getNomVariable() {
         return this.nomVariable;
-    }
-
-    public void setNomVariable(String var) {
-        this.nomVariable = var;
     }
 
     public Double getBornInf() {
@@ -161,26 +161,6 @@ public class Equation {
 
     public Double getPas() {
         return pas;
-    }
-
-    /**
-     * Setter de l'Objet equation
-     * */
-
-    public void setBornInf(Double bornInf) {
-        this.bornInf = bornInf;
-    }
-
-    public void setBornSup(Double bornSup) {
-        this.bornSup = bornSup;
-    }
-
-    public void setPas(Double pas) {
-        this.pas = pas;
-    }
-
-    public static void addEquation(Equation e){
-        equations.add(e);
     }
 
     public static Vector<Equation> getEquations() {
@@ -207,6 +187,30 @@ public class Equation {
         return draw;
     }
 
+    public static void addEquation(Equation e){
+        equations.add(e);
+    }
+
+    /**
+     * Setter de l'Objet equation
+     * */
+
+    public void setBornInf(Double bornInf) {
+        this.bornInf = bornInf;
+    }
+
+    public void setNomVariable(String var) {
+        this.nomVariable = var;
+    }
+
+    public void setBornSup(Double bornSup) {
+        this.bornSup = bornSup;
+    }
+
+    public void setPas(Double pas) {
+        this.pas = pas;
+    }
+
     public static void setEquations(Vector<Equation> equations) {
         Equation.equations = equations;
     }
@@ -228,19 +232,19 @@ public class Equation {
     }
 
     /**
-     * Méthode supprimant l'équation à l'indice souhaité
+     * Méthode supprimant l'équation à l'indice souhaité.
      * */
     public static void deleteEquation(int i){equations.remove(i);}
 
     /**
-     * calcul des valeurs de l'expression de fonction
+     * calcul des valeurs de l'expression de fonction.
      * */
     public Pair<Vector<Double>,Vector<Double>> calcFunc() throws IntervalException {
 
-        //calcul des valeurs de la fonction
         Function f = new Function(this.name, this.expression, this.nomVariable);
         Vector<Double> X = new Vector<Double>();
         Vector<Double> Y = new Vector<Double>();
+
         for (Double i = bornInf; i <= bornSup; i = i + pas){
             Y.add(f.calculate(i));
             X.add(i);
@@ -252,11 +256,10 @@ public class Equation {
     }
 
     /**
-     * calcul des valeurs de l'expression de la fonction dérivée
+     * calcul des valeurs de l'expression de la fonction dérivée.
      * */
     public Pair<Vector<Double>,Vector<Double>> calcFuncDeriv() throws IntervalException {
 
-        //calcul des valeurs de la fonction dérivée
         Vector<Double> X = new Vector<Double>();
         Vector<Double> Y = new Vector<Double>();
         for (Double i = bornInf; i <= bornSup; i = i + pas){
@@ -271,11 +274,10 @@ public class Equation {
     }
 
     /**
-     * calcul des valeurs de l'expression de la fonction intégrée
+     * calcul des valeurs de l'expression de la fonction intégrée.
      * */
     public Pair<Vector<Double>,Vector<Double>> calcFuncInt() throws IntervalException {
 
-        //calcul des valeurs de la fonction intégrée
         Vector<Double> X = new Vector<Double>();
         Vector<Double> Y = new Vector<Double>();
         for (Double i = bornInf; i <= bornSup; i = i + pas){
@@ -290,11 +292,38 @@ public class Equation {
     }
 
     /**
-     * fonction pour résoudre une équation avec une valeur
+     * fonction pour résoudre une équation avec une valeur.
      * */
     public Double solveEquation(String[] param){
-        String[] interval = param[1].split(";");
-        Expression e = new Expression("solve("+this.expression+"-"+param[0]+","+this.nomVariable+","+interval[0]+","+interval[1]+")");
+        try {
+            //si la syntaxe n'est pas bien suivie, on envoie une exception
+            if (param.length != 2) {
+                throw new SizeExprException();
+
+            }
+        }catch (SizeExprException e) {e.printStackTrace(); }
+
+        String[] subParam = param[1].split(";");
+        try{
+            //s'il n'y a pas le bon nombre de parametre entré on envoie une expection.
+            if(subParam.length != 2){
+                throw new SizeExprException();
+
+            }
+            //si un des paramètre n'est pas une nombre on envoie une exception.
+            if(!param[0].matches("[0-9]*") || !subParam[0].matches("[0-9]*") || !subParam[1].matches("[0-9]*")){
+                throw new NumberExpectedException();
+            }
+
+        }
+        catch(NumberExpectedException e){
+            e.printStackTrace();
+
+        } catch (SizeExprException e) {
+            e.printStackTrace();
+        }
+        //si on ne rencontre aucun problème, on résoud l'équation
+        Expression e = new Expression("solve("+this.expression+"-"+param[0]+","+this.nomVariable+","+subParam[0]+","+subParam[1]+")");
         return e.calculate();
     }
 }
