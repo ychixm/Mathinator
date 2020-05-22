@@ -106,13 +106,13 @@ public class Controller implements Initializable{
 
     private void drawGraphD() throws IntervalException {
         // éxecute la fonction de tracé avec l'argument permettant le calcul de la dérivée.
-        Equation e = new Equation(input.getText());
+        Equation e = new Equation("deriv :"+input.getText());
         drawGraph('d',e);
     }
 
     private void drawGraphP() throws IntervalException {
         // éxecute la fonction de tracé avec l'argument permettant le calcul de la primitive.
-        Equation e = new Equation(input.getText());
+        Equation e = new Equation("primitive :"+input.getText());
         drawGraph('p',e);
     }
 
