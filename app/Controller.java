@@ -203,7 +203,9 @@ public class Controller implements Initializable{
         }
         solved.setText(Double.toString(solution));
     }
-
+    /**
+     * fonction qui permet d'en combiner deux autres.
+     * */
     private void combineEquation(){
         String expr1Name = expr1.getValue().toString();
         String expr2Name = expr2.getValue().toString();
@@ -235,7 +237,7 @@ public class Controller implements Initializable{
             default:
                 break;
         }
-        store(name.getText()+" = "+solution +" = -5;5;0.1");
+        store(name.getText()+" = "+solution +" = -20;20;0.1");
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
