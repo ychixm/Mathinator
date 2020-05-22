@@ -4,6 +4,8 @@ import javafx.scene.control.CheckBox;
 
 import java.util.Stack;
 import java.util.Vector;
+
+import javafx.util.Pair;
 import org.mariuszgromada.math.mxparser.*;
 
 public class Equation {
@@ -169,7 +171,7 @@ public class Equation {
     public static void deleteEquation(int i){equations.remove(i);}
 
     //calcul des valeurs de l'expression de fonction
-    public Vector<Double> calcFunc() throws IntervalException {
+    public Pair<Vector<String>,Vector<Double>> calcFunc() throws IntervalException {
         //récupération de l'intervalle et du pas
         // ATTENTION : Tester String vide si rend un tableau vide
         String tmp = this.interval.replaceAll(" ","");
@@ -217,10 +219,14 @@ public class Equation {
         //reprise du code bon
 
         Function f = new Function(this.name, this.expression, this.nomVariable);
-        Vector<Double> valFunc = new Vector<Double>();
+        Vector<String> X = new Vector<String>();
+        Vector<Double> Y = new Vector<Double>();
         for (Double i = bornInf; i < bornSup; i = i + pas){
-            valFunc.add(f.calculate(i));
+            X.add(i.toString());
+            Y.add(f.calculate(i));
         }
+
+        Pair<Vector<String>,Vector<Double>> valFunc = new Pair<>(X,Y);
         return valFunc;
 
     }
