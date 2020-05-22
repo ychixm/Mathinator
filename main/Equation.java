@@ -39,12 +39,10 @@ public class Equation {
 
     //constructeur utilisant une expression complete
     public Equation(String equation){
-        System.out.println(equation);
+        //System.out.println(equation);
         try {
             String[] expr = parseExpr(equation);
-            System.out.println(expr[0]);
-            System.out.println(expr[1]);
-            System.out.println(expr[2]);
+
 
             this.expression = expr[1];
             this.name = expr[0];
@@ -53,7 +51,6 @@ public class Equation {
             this.select = new CheckBox();
 
         } catch (SizeExprException e) {
-            //System.out.println("mauvaise syntaxe dans l'expression");
             e.printStackTrace();
         }
         //voir si le nom de la variable est entrée ou non
@@ -179,26 +176,29 @@ public class Equation {
     public Pair<Vector<String>,Vector<Double>> calcFunc() throws IntervalException {
         //récupération de l'intervalle et du pas
         // ATTENTION : Tester String vide si rend un tableau vide
-        //String tmp = this.interval.replaceAll(" ","");
-        //String[] tmp2 = tmp.split(";");
+        String tmp = this.interval.replaceAll(" ","");
+        String[] tmp2 = tmp.split(";");
         Double bornInf = 0.00;
         Double bornSup = 10.00;
         Double pas = 1.00 ;
         //valeurs de l'intervalle avec pas non reconnues, on prendra des valeurs par défaut.
-        //if(tmp2.length == 2 || tmp2.length == 3){
-        //    bornInf = Double.parseDouble(tmp2[0]);
-        //    bornSup = Double.parseDouble(tmp2[1]);
-        //    if(tmp2.length == 3){
-        //        pas = Double.parseDouble(tmp2[2]);
-        //    }
+        if(tmp2.length == 2 || tmp2.length == 3){
+            bornInf = Double.parseDouble(tmp2[0]);
+            bornSup = Double.parseDouble(tmp2[1]);
+            //System.out.println(bornInf);
+            //System.out.println(bornSup);
+            if(tmp2.length == 3){
+                pas = Double.parseDouble(tmp2[2]);
+                //System.out.println("pas ="+pas);
+            }
 
- //       }
- //       if(bornInf > bornSup){
- //           throw new IntervalException();
- //       }
- //       else if(pas > bornSup - bornInf){
- //           throw new IntervalException();
- //       }
+        }
+        if(bornInf > bornSup){
+            throw new IntervalException();
+        }
+        else if(pas > bornSup - bornInf){
+            throw new IntervalException();
+        }
         //Le pas et l'intervalle sont set
 
 
@@ -222,13 +222,12 @@ public class Equation {
         //return valFunc;
 
         //reprise du code bon
-        System.out.println(this.name);
-        System.out.println(this.expression);
-        System.out.println(this.nomVariable);
+
         Function f = new Function(this.name, this.expression, this.nomVariable);
         Vector<String> X = new Vector<String>();
         Vector<Double> Y = new Vector<Double>();
-        for (Double i = bornInf; i < bornSup; i = i + pas){
+        for (Double i = bornInf; i <= bornSup; i = i + pas){
+            //System.out.println(("i="+i));
             Y.add(f.calculate(i));
             X.add(i.toString());
         }
