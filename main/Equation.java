@@ -277,6 +277,23 @@ public class Equation {
 
     }
 
+    //calcul des valeurs de l'expression de la fonction dérivée
+    public Pair<Vector<Double>,Vector<Double>> calcFuncDeriv() throws IntervalException {
+
+        //calcul des valeurs de la fonction dérivée
+        Vector<Double> X = new Vector<Double>();
+        Vector<Double> Y = new Vector<Double>();
+        for (Double i = bornInf; i <= bornSup; i = i + pas){
+            Expression e = new Expression("der("+this.expression+","+this.nomVariable+","+i.toString()+")");
+            Y.add(e.calculate());
+            X.add(i);
+        }
+
+        Pair<Vector<Double>,Vector<Double>> valFunc = new Pair<>(X,Y);
+        return valFunc;
+
+    }
+
     private void displayed(){
         this.draw.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
