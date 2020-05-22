@@ -139,6 +139,8 @@ public class Controller implements Initializable{
         interval.setCellValueFactory(new PropertyValueFactory<>("interval"));
 
         list.getColumns().addAll(name,expression,interval);
+
+        //en fonction du TableView passé en paramètre
         if(list == storage){
             TableColumn<Equation,Boolean> select = new TableColumn<Equation,Boolean>("select");
             select.setCellValueFactory(new PropertyValueFactory<>("select"));
