@@ -23,9 +23,9 @@
                      <children>
                         <Button fx:id="draw" layoutX="5.0" layoutY="56.0" mnemonicParsing="false" text="Draw" />
                         <Button fx:id="store" layoutX="5.0" layoutY="91.0" mnemonicParsing="false" text="Store" />
-                        <LineChart fx:id="graph" layoutX="244.0" prefHeight="626.0" prefWidth="673.0">
+                        <LineChart fx:id="graph" layoutX="244.0" prefHeight="620.0" prefWidth="674.0">
                           <xAxis>
-                            <NumberAxis side="BOTTOM" />
+                            <NumberAxis prefWidth="618.0" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />
