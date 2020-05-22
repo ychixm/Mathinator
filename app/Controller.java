@@ -1,7 +1,9 @@
 package app;
 
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -49,6 +51,14 @@ public class Controller implements Initializable{
     private TableView<Equation> storage;
     @FXML
     private LineChart<Double,Double> graph;
+
+    //ajouté et a ranger
+    @FXML
+    private Button solve;
+    @FXML
+    private ChoiceBox solver;
+    @FXML
+    private TextField value;
 
     private void drawGraph(char c) throws IntervalException {
         Equation e = new Equation(input.getText());
@@ -120,6 +130,11 @@ public class Controller implements Initializable{
         Equation.getEquations().add(new Equation(input.getText()));
     }
 
+    private void refreshSolver(){
+        ObservableList<Equation> list = FXCollections.observableList(Equation.getEquations());
+        solver.setItems(list);
+    }
+
     public void initialize(URL url, ResourceBundle resourceBundle){
         displayTableView(storedEquation);
         displayTableView(storage);
@@ -179,6 +194,12 @@ public class Controller implements Initializable{
                 } catch (IntervalException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        //ajouté
+        solver.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                refreshSolver();
             }
         });
     }
