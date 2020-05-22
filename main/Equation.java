@@ -20,7 +20,9 @@ public class Equation {
 
     private static Vector<Equation> equations = new Vector<Equation>();
 
-    //Constructeur vide
+    /**
+     * Constructeur vide
+     * */
     public Equation() {
         this.expression = "";
         this.name = "";
@@ -33,7 +35,9 @@ public class Equation {
         this.pas = 1.00 ;
     }
 
-    //constructeur si on veut rentrer les paramètres à la mano
+    /**
+     * constructeur si on veut rentrer les paramètres à la mano
+     * */
     public Equation(String expr, String name, String interval, String var, Double sup, Double inf, Double pas){
         this.expression = expr;
         this.name = name;
@@ -50,7 +54,8 @@ public class Equation {
 
     /**
      * @param equation String contenant l'entrée utilisateur.
-     * constructeur utilisant une expression complete*/
+     * constructeur utilisant une expression complete
+     * */
     public Equation(String equation){
         try {
             String[] expr = parseExpr(equation);
@@ -109,7 +114,8 @@ public class Equation {
 
     /**
      * fonction pour parser l'expression de l'équation
-     * l'expression doit être de la forme "name(variable) = expression = born inf;borne sup */
+     * l'expression doit être de la forme "name(variable) = expression = born inf;borne sup
+     * */
     private String[] parseExpr (String expr) throws SizeExprException{
         String tmp = expr.replaceAll(" ","");
         String[] tmp2 = tmp.split("=");
@@ -214,7 +220,8 @@ public class Equation {
     public static void deleteEquation(int i){equations.remove(i);}
 
     /**
-     * calcul des valeurs de l'expression de fonction */
+     * calcul des valeurs de l'expression de fonction
+     * */
     public Pair<Vector<Double>,Vector<Double>> calcFunc() throws IntervalException {
 
         //calcul des valeurs de la fonction
@@ -232,7 +239,8 @@ public class Equation {
     }
 
     /**
-     * calcul des valeurs de l'expression de la fonction dérivée */
+     * calcul des valeurs de l'expression de la fonction dérivée
+     * */
     public Pair<Vector<Double>,Vector<Double>> calcFuncDeriv() throws IntervalException {
 
         //calcul des valeurs de la fonction dérivée
@@ -250,7 +258,8 @@ public class Equation {
     }
 
     /**
-     * calcul des valeurs de l'expression de la fonction intégrée */
+     * calcul des valeurs de l'expression de la fonction intégrée
+     * */
     public Pair<Vector<Double>,Vector<Double>> calcFuncInt() throws IntervalException {
 
         //calcul des valeurs de la fonction intégrée
@@ -267,7 +276,9 @@ public class Equation {
 
     }
 
-    //fonction pour résoudre une équation avec une valeur
+    /**
+     * fonction pour résoudre une équation avec une valeur
+     * */
     public Double solveEqua(String[] param){
         String[] interval = param[1].split(";");
         Expression e = new Expression("solve("+this.expression+"-"+param[0]+","+this.nomVariable+","+interval[0]+","+interval[1]+")");

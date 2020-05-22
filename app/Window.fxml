@@ -45,37 +45,47 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="storage" layoutX="512.0" layoutY="14.0" prefHeight="576.0" prefWidth="390.0" />
-                        <Button fx:id="refreshB" layoutX="456.0" layoutY="404.0" mnemonicParsing="false" text="Refresh" />
-                        <Button fx:id="delete" layoutX="459.0" layoutY="441.0" mnemonicParsing="false" text="Delete" />
-                        <Button fx:id="solve" layoutX="393.0" layoutY="58.0" mnemonicParsing="false" text="Solve" />
-                        <Label layoutX="45.0" layoutY="22.0" prefHeight="35.0" prefWidth="82.0" text="Solver">
+                        <TableView fx:id="storage" layoutX="527.0" layoutY="49.0" prefHeight="576.0" prefWidth="390.0" />
+                        <Button fx:id="refreshB" layoutX="803.0" layoutY="19.0" mnemonicParsing="false" text="Refresh" />
+                        <Button fx:id="delete" layoutX="602.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                        <Button fx:id="solve" layoutX="348.0" layoutY="49.0" mnemonicParsing="false" text="Solve" />
+                        <Label layoutX="22.0" layoutY="14.0" prefHeight="35.0" prefWidth="82.0" text="Solver">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="34.0" layoutY="105.0" text="Combiner">
+                        <Label layoutX="11.0" layoutY="218.0" text="Combiner">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="name" layoutX="22.0" layoutY="141.0" />
-                        <ChoiceBox fx:id="expr1" layoutX="197.0" layoutY="141.0" prefHeight="26.0" prefWidth="68.0" />
-                        <ChoiceBox fx:id="operation" layoutX="285.0" layoutY="141.0" prefHeight="26.0" prefWidth="58.0" />
-                        <ChoiceBox fx:id="expr2" layoutX="360.0" layoutY="141.0" prefHeight="26.0" prefWidth="66.0" />
-                        <Button fx:id="combine" layoutX="443.0" layoutY="142.0" mnemonicParsing="false" text="Store" />
-                        <ChoiceBox fx:id="solver" layoutX="34.0" layoutY="56.0" prefWidth="150.0" />
-                        <Label layoutX="176.0" layoutY="136.0" text="=">
+                        <TextField fx:id="name" layoutX="12.0" layoutY="259.0" />
+                        <ChoiceBox fx:id="expr1" layoutX="191.0" layoutY="258.0" prefHeight="26.0" prefWidth="68.0" />
+                        <ChoiceBox fx:id="operation" layoutX="281.0" layoutY="258.0" prefHeight="26.0" prefWidth="58.0" />
+                        <ChoiceBox fx:id="expr2" layoutX="359.0" layoutY="258.0" prefHeight="26.0" prefWidth="66.0" />
+                        <Button fx:id="combine" layoutX="437.0" layoutY="258.0" mnemonicParsing="false" text="Store" />
+                        <ChoiceBox fx:id="solver" layoutX="11.0" layoutY="45.0" prefWidth="150.0" />
+                        <Label layoutX="168.0" layoutY="254.0" text="=">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="197.0" layoutY="51.0" text="=">
+                        <Label layoutX="168.0" layoutY="40.0" text="=">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="value" layoutX="231.0" layoutY="58.0" />
+                        <TextField fx:id="value" layoutX="191.0" layoutY="49.0" />
+                        <Label layoutX="163.0" layoutY="102.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="solved" layoutX="148.0" layoutY="84.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
             </content>
           </Tab>

@@ -1,16 +1,12 @@
 package app;
 
-import javafx.beans.Observable;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.event.EventHandler;
@@ -18,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
 import javafx.util.Pair;
 import main.Equation;
 
@@ -28,12 +23,15 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 import main.IntervalException;
-import org.mariuszgromada.math.mxparser.*;
 
 
 public class Controller implements Initializable{
     @FXML
     private TextField input;
+    @FXML
+    private TextField value;
+    @FXML
+    private TextField name;
     @FXML
     private Button draw;
     @FXML
@@ -51,23 +49,30 @@ public class Controller implements Initializable{
     @FXML
     private Button clear;
     @FXML
+    private Button solve;
+    @FXML
+    private Label solved;
+    @FXML
     private TableView<Equation> storedEquation;
     @FXML
     private TableView<Equation> storage;
     @FXML
     private LineChart<Double,Double> graph;
+    @FXML
+    private ChoiceBox solver;
+    @FXML
+    private ChoiceBox expr1;
+    @FXML
+    private ChoiceBox expr2;
+    @FXML
+    private ChoiceBox operation;
+
 
     /**
      * @param c caractère permettant le choix du type de tracé de graph p(primitive) d(dérivé) sinon un tracé classique de l'expression
      * @param e equation que l'on souhaite tracer
      * */
-    //ajouté
-    @FXML
-    private ChoiceBox solver;
-    @FXML
-    private TextField value;
-    @FXML
-    private Button solve;
+
 
     private void drawGraph(char c, Equation e) throws IntervalException {
         Pair<Vector<Double>,Vector<Double>> tmp;
@@ -109,7 +114,7 @@ public class Controller implements Initializable{
     private void refresh(){
         displayTableView(storedEquation);
         displayTableView(storage);
-        refreshSolver();
+        refreshChoice();
     }
     /**
      * @param list Tableview que l'on souhaite mette à jour.
@@ -172,31 +177,34 @@ public class Controller implements Initializable{
         refresh();
     }
 
-    private void refreshSolver(){
+    private void refreshChoice(){
         ArrayList<String> list = new ArrayList<String>();
         for (Equation elt : Equation.getEquations()){
-            list.add(elt.getName());
+            list.add(elt.getName()+" = "+elt.getExpression());
         }
         solver.setItems(FXCollections.observableArrayList(list.toArray()));
+        expr1.setItems(FXCollections.observableArrayList(list.toArray()));
+        expr2.setItems(FXCollections.observableArrayList(list.toArray()));
     }
 
-    //dans value, mettre "valeur > bornInf;BornSup"
+    /**
+     * dans value, mettre "valeur > bornInf;BornSup"
+     * */
     private void solveEquation(){
         String solveEquaName = (String) solver.getValue();
         String[] valueTextField = value.getText().replaceAll(" ","").split(">");
-        Double solved = 0.00;
+        Double solution = 0.00;
         for(Equation e : Equation.getEquations()){
             if(e.getName() == solveEquaName){
-                solved = e.solveEqua(valueTextField);
+                solution = e.solveEqua(valueTextField);
             }
         }
-        System.out.println(solved);
-
+        solved.setText(Double.toString(solution));
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
-        displayTableView(storedEquation);
-        displayTableView(storage);
+        operation.setItems(FXCollections.observableArrayList("+","-","*","/","^"));
+        refresh();
         store.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 store(input.getText());
