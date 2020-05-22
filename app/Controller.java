@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import org.mariuszgromada.math.mxparser.*;
-
 import main.IntervalException;
 
 import static org.mariuszgromada.math.mxparser.mathcollection.NumberTheory.max;
@@ -76,12 +74,13 @@ public class Controller implements Initializable{
 
 
     /**
-     * @param c caractère permettant le choix du type de tracé de graph p(primitive) d(dérivé) sinon un tracé classique de l'expression
-     * @param e equation que l'on souhaite tracer
+     * @param c caractère permettant le choix du type de tracé de graph p (primitive) d (dérivée) sinon un tracé classique de l'expression.
+     * @param e equation que l'on souhaite tracer.
      * */
 
 
     private void drawGraph(char c, Equation e) throws IntervalException {
+        // on Récupère une Pair contenant deux vecteur un pour chaque axe.
         Pair<Vector<Double>,Vector<Double>> tmp;
         switch (c){
             case 'd':
@@ -106,17 +105,19 @@ public class Controller implements Initializable{
     }
 
     private void drawGraphD() throws IntervalException {
+        // éxecute la fonction de tracé avec l'argument permettant le calcul de la dérivée.
         Equation e = new Equation(input.getText());
         drawGraph('d',e);
     }
 
     private void drawGraphP() throws IntervalException {
+        // éxecute la fonction de tracé avec l'argument permettant le calcul de la primitive.
         Equation e = new Equation(input.getText());
         drawGraph('p',e);
     }
 
     /**
-     * fonction permettant de mettre à jour les différents visuels en cas d'ajout de donnés
+     * fonction permettant de mettre à jour les différents visuels en cas d'ajout de donnés.
      * */
     private void refresh(){
         displayTableView(storedEquation);
@@ -125,7 +126,7 @@ public class Controller implements Initializable{
     }
     /**
      * @param list Tableview que l'on souhaite mette à jour.
-     * cette fonction crée/recréer la TableView souhaité
+     * cette fonction crée/recréer la TableView souhaité.
      * */
     private void displayTableView(TableView<Equation> list){
         list.getColumns().clear();
@@ -156,14 +157,14 @@ public class Controller implements Initializable{
     }
 
     /**
-     * Fonction supprimant les données du LineChart
+     * Fonction supprimant les données du LineChart.
      * */
     private void clearGraph(){
         graph.getData().clear();
     }
 
     /**
-     * @param input String contenant l'entrée utilisateur à parser et à enregistrer dans un tableau
+     * @param input String contenant l'entrée utilisateur à parser et à enregistrer dans un tableau.
      * */
     private void store(String input){
         Equation.getEquations().add(new Equation(input));
@@ -195,7 +196,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * dans value, mettre "valeur > bornInf;BornSup"
+     * dans value, mettre "valeur > bornInf;BornSup".
      * */
     private void solveEquation(){
         String solveEquaName = (String) solver.getValue();
@@ -214,6 +215,7 @@ public class Controller implements Initializable{
     private void combineEquation(){
         String expr1Name = expr1.getValue().toString();
         String expr2Name = expr2.getValue().toString();
+        //initialisation pour rendre le code plus robuste.
         String expr1e = "0";
         String expr2e = "0";
         Double inf1 = 0.0;
@@ -258,7 +260,9 @@ public class Controller implements Initializable{
         }
         store(name.getText()+" = "+solution +" ="+min(inf1, inf2)+";"+max(sup1,sup2)+";"+min(pas1, pas2));
     }
-
+    /**
+     * fonction de la fênetre javafx qui s'éxecute à l'ouverture de la fênetre .
+     * */
     public void initialize(URL url, ResourceBundle resourceBundle){
         operation.setItems(FXCollections.observableArrayList("+","-","*","/","^"));
         refresh();
@@ -267,7 +271,7 @@ public class Controller implements Initializable{
                 store(input.getText());
             }
         });
-
+        //les setOnAction s'éxecute à l'appui sur les boutons.
         draw.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
