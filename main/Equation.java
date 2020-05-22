@@ -4,11 +4,13 @@ import javafx.scene.control.CheckBox;
 
 import java.util.Stack;
 import java.util.Vector;
+import org.mariuszgromada.math.mxparser.*;
 
 public class Equation {
     private String name;
     private String expression;
     private String interval;
+    private String nomVariable;
     private CheckBox select;
 
     private static Vector<Equation> equations = new Vector<Equation>();
@@ -19,14 +21,17 @@ public class Equation {
         this.name = "";
         this.interval = "";
         this.select = new CheckBox();
+        this.nomVariable = "x";
     }
 
     //constructeur si on veut rentrer les paramètres à la mano
-    public Equation(String expr, String name, String interval){
+    public Equation(String expr, String name, String interval, String var){
         this.expression = expr;
         this.name = name;
         this.interval = interval;
         this.select = new CheckBox();
+        this.nomVariable = var;
+
     }
 
 
@@ -42,6 +47,23 @@ public class Equation {
 
         } catch (SizeExprException e) {
             //System.out.println("mauvaise syntaxe dans l'expression");
+            e.printStackTrace();
+        }
+        //voir si le nom de la variable est entrée ou non
+        //ATTENTION : A TESTER
+        try{
+            boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
+            if (test == true){
+                String[] split = this.name.split("[\\(]", 1);
+                split[1].replaceAll("[\\(]", "");
+                split[1].replaceAll("[\\)]", "");
+                this.nomVariable = split[1];
+            }
+            else {
+                throw new PasDeVariableException();
+            }
+
+        } catch (PasDeVariableException e) {
             e.printStackTrace();
         }
 
@@ -61,6 +83,21 @@ public class Equation {
             //System.out.println("mauvaise syntaxe dans l'expression");
             e.printStackTrace();
         }
+        try{
+            boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
+            if (test == true){
+                String[] split = this.name.split("[\\(]", 1);
+                split[1].replaceAll("[\\(]", "");
+                split[1].replaceAll("[\\)]", "");
+                this.nomVariable = split[1];
+            }
+            else {
+                throw new PasDeVariableException();
+            }
+
+        } catch (PasDeVariableException e) {
+            e.printStackTrace();
+        }
     }
 
     //fonction pour parser l'expression de l'équation
@@ -77,6 +114,13 @@ public class Equation {
 
     }
 
+    public String getNomVariable() {
+        return this.nomVariable;
+    }
+
+    public void setNomVariable(String var) {
+        this.nomVariable = var;
+    }
 
     public static void addEquation(Equation e){
         equations.add(e);
@@ -150,38 +194,51 @@ public class Equation {
         }
         //Le pas et l'intervalle sont set
 
+
+        //Code pas bon en dessous
+
+
         //mise en place de la pile pour calculer dans l'ordre
-        Stack<String> pile = new Stack<String>();
+        //Stack<String> pile = new Stack<String>();
         //fonction de pile :
-        pile = pileFonction();
+        //pile = pileFonction();
 
 
 
         //else{
 
+        //Vector<Double> valFunc = new Vector<Double>();
+        //for (Double i = bornInf; i < bornSup; i = i + pas){
+        //    valFunc.add(valeurCalc(pile, i));
+        //}
+
+        //return valFunc;
+
+        //reprise du code bon
+
+        Function f = new Function(this.name, this.expression, this.nomVariable);
         Vector<Double> valFunc = new Vector<Double>();
         for (Double i = bornInf; i < bornSup; i = i + pas){
-            valFunc.add(valeurCalc(pile, i));
+            valFunc.add(f.calculate(i));
         }
-
         return valFunc;
 
     }
 
     //Fonction pour set la pile de calcul des valeurs de la fonction
-    public Stack<String> pileFonction(){
-        Stack<String> pile = new Stack<String>();
+    //public Stack<String> pileFonction(){
+    //    Stack<String> pile = new Stack<String>();
+    //
+    //    return pile;
+    //}
 
-        return pile;
-    }
-
-    public Double valeurCalc(Stack<String> pile, Double val){
-        Double valFinal = 0.00;
-        while(!pile.empty()){
-            //dépiler en remplaçant la variable par val
-         }
-        return valFinal;
-    }
+    //public Double valeurCalc(Stack<String> pile, Double val){
+    //    Double valFinal = 0.00;
+    //    while(!pile.empty()){
+    //        //dépiler en remplaçant la variable par val
+    //     }
+    //    return valFinal;
+    //}
 
 
 }
