@@ -1,5 +1,6 @@
 package app;
 
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,10 +18,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.event.ActionEvent;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import main.Equation;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -53,6 +56,14 @@ public class Controller implements Initializable{
     private TableView<Equation> storage;
     @FXML
     private LineChart<Double,Double> graph;
+
+    //ajouté
+    @FXML
+    private ChoiceBox solver;
+    @FXML
+    private TextField value;
+    @FXML
+    private Button solve;
 
     private void drawGraph(char c, Equation e) throws IntervalException {
         Pair<Vector<Double>,Vector<Double>> tmp;
@@ -91,6 +102,7 @@ public class Controller implements Initializable{
     private void refresh(){
         displayTableView(storedEquation);
         displayTableView(storage);
+        refreshSolver();
     }
 
     private void displayTableView(TableView<Equation> list){
@@ -145,6 +157,27 @@ public class Controller implements Initializable{
         refresh();
     }
 
+    private void refreshSolver(){
+        ArrayList<String> list = new ArrayList<String>();
+        for (Equation elt : Equation.getEquations()){
+            list.add(elt.getName());
+        }
+        solver.setItems(FXCollections.observableArrayList(list.toArray()));
+    }
+
+    //dans value, mettre "valeur > bornInf;BornSup"
+    private void solveEquation(){
+        String solveEquaName = (String) solver.getValue();
+        String[] valueTextField = value.getText().replaceAll(" ","").split(">");
+        Double solved = 0.00;
+        for(Equation e : Equation.getEquations()){
+            if(e.getName() == solveEquaName){
+                solved = e.solveEqua(valueTextField);
+            }
+        }
+        System.out.println(solved);
+
+    }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
         displayTableView(storedEquation);
@@ -213,5 +246,12 @@ public class Controller implements Initializable{
                 clearGraph();
             }
         });
+        solve.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                solveEquation();
+            }
+        });
+
+
     }
 }

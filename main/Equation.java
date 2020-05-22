@@ -310,4 +310,11 @@ public class Equation {
         return valFunc;
 
     }
+
+    //fonction pour résoudre une équation avec une valeur
+    public Double solveEqua(String[] param){
+        String[] interval = param[1].split(";");
+        Expression e = new Expression("solve("+this.expression+"-"+param[0]+","+this.nomVariable+","+interval[0]+","+interval[1]+")");
+        return e.calculate();
+    }
 }
