@@ -310,13 +310,4 @@ public class Equation {
         return valFunc;
 
     }
-
-
-
-    private void displayed(){
-        this.draw.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            }
-        });
-    }
 }

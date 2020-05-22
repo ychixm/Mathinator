@@ -47,8 +47,7 @@
                         <TableView fx:id="storage" layoutX="512.0" layoutY="14.0" prefHeight="576.0" prefWidth="390.0" />
                         <Button fx:id="refreshB" layoutX="456.0" layoutY="404.0" mnemonicParsing="false" text="Refresh" />
                         <Button fx:id="delete" layoutX="459.0" layoutY="441.0" mnemonicParsing="false" text="Delete" />
-                        <Button fx:id="solve" layoutX="347.0" layoutY="56.0" mnemonicParsing="false" text="Solve" />
-                        <TextField fx:id="solver" layoutX="14.0" layoutY="56.0" prefHeight="26.0" prefWidth="314.0" />
+                        <Button fx:id="solve" layoutX="393.0" layoutY="58.0" mnemonicParsing="false" text="Solve" />
                         <Label layoutX="45.0" layoutY="22.0" prefHeight="35.0" prefWidth="82.0" text="Solver">
                            <font>
                               <Font size="24.0" />
@@ -60,15 +59,22 @@
                            </font>
                         </Label>
                         <TextField fx:id="name" layoutX="22.0" layoutY="141.0" />
-                        <Label layoutX="180.0" layoutY="136.0" text="=">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
                         <ChoiceBox fx:id="expr1" layoutX="197.0" layoutY="141.0" prefHeight="26.0" prefWidth="68.0" />
                         <ChoiceBox fx:id="operation" layoutX="285.0" layoutY="141.0" prefHeight="26.0" prefWidth="58.0" />
                         <ChoiceBox fx:id="expr2" layoutX="360.0" layoutY="141.0" prefHeight="26.0" prefWidth="66.0" />
                         <Button fx:id="combine" layoutX="443.0" layoutY="142.0" mnemonicParsing="false" text="Store" />
+                        <ChoiceBox fx:id="solver" layoutX="34.0" layoutY="56.0" prefWidth="150.0" />
+                        <Label layoutX="176.0" layoutY="136.0" text="=">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="197.0" layoutY="51.0" text="=">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="value" layoutX="231.0" layoutY="58.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
