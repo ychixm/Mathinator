@@ -1,11 +1,13 @@
 package app;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.event.EventHandler;
@@ -17,6 +19,7 @@ import main.Equation;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 
 public class Controller implements Initializable{
@@ -29,7 +32,15 @@ public class Controller implements Initializable{
     @FXML
     private Button fex;
     @FXML
+    private Button delete;
+    @FXML
+    private Button refreshA;
+    @FXML
+    private Button refreshB;
+    @FXML
     private TableView<Equation> storedEquation;
+    @FXML
+    private TableView<Equation> storage;
     @FXML
     private LineChart<String,Double> graph;
 
@@ -44,25 +55,37 @@ public class Controller implements Initializable{
         graph.getData().add(a);
     }
 
-    private void store(){
-        storedEquation.getColumns().clear();
+    private void refresh(){
+        displayTableView(storedEquation);
+        displayTableView(storage);
+    }
+
+    private void displayTableView(TableView<Equation> list){
+        list.getColumns().clear();
         TableColumn<Equation,String> name = new TableColumn<Equation,String>("name");
         TableColumn<Equation,String> expression = new TableColumn<Equation,String>("expression");
         TableColumn<Equation,String> interval = new TableColumn<Equation,String>("interval");
+        TableColumn<Equation,Boolean> select = new TableColumn<Equation,Boolean>("select");
+
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expression.setCellValueFactory(new PropertyValueFactory<>("expression"));
         interval.setCellValueFactory(new PropertyValueFactory<>("interval"));
+        select.setCellValueFactory(new PropertyValueFactory<>("select"));
 
-        storedEquation.getColumns().addAll(name,expression,interval);
-
+        list.getColumns().addAll(name,expression,interval);
+        storage.getColumns().add(select);
         Equation[] temp = new Equation[Equation.getEquations().size()];
 
-        ObservableList<Equation> list = FXCollections.observableArrayList(Equation.getEquations().toArray(temp));
-        storedEquation.setItems(list);
+        ObservableList<Equation> data = FXCollections.observableArrayList(Equation.getEquations().toArray(temp));
+        list.setItems(data);
+    }
+
+    private void store(){
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
-
+        //displayTableView(storedEquation);
+        displayTableView(storage);
 
         fex.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
@@ -79,9 +102,32 @@ public class Controller implements Initializable{
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
                 drawGraph();
-
             }
         });
-
+        delete.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                Vector<Integer> tmp = new Vector<Integer>();
+                for (int i = 0; i < Equation.getEquations().size(); i++)
+                {
+                    if(Equation.getEquations().elementAt(i).getSelect().isSelected()){
+                        tmp.add(i);
+                    }
+                }
+                for(int j = 0 ; j < tmp.size() ; j++){
+                    Equation.deleteEquation(tmp.elementAt(j));
+                }
+                refresh();
+            }
+        });
+        refreshA.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                refresh();
+            }
+        });
+        refreshB.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                refresh();
+            }
+        });
     }
 }

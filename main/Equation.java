@@ -1,5 +1,8 @@
 package main;
 
+import javafx.scene.control.CheckBox;
+
+import java.awt.*;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -7,6 +10,7 @@ public class Equation {
     private String name;
     private String expression;
     private String interval;
+    private CheckBox select;
 
     private static Vector<Equation> equations = new Vector<Equation>();
 
@@ -15,6 +19,7 @@ public class Equation {
         this.expression = "";
         this.name = "";
         this.interval = "";
+        this.select = new CheckBox();
     }
 
     //constructeur si on veut rentrer les paramètres à la mano
@@ -22,6 +27,7 @@ public class Equation {
         this.expression = expr;
         this.name = name;
         this.interval = interval;
+        this.select = new CheckBox();
     }
 
 
@@ -33,6 +39,7 @@ public class Equation {
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
+            this.select = new CheckBox();
 
         } catch (SizeExprException e) {
             //System.out.println("mauvaise syntaxe dans l'expression");
@@ -49,6 +56,7 @@ public class Equation {
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
+            this.select = new CheckBox();
 
         } catch (SizeExprException e) {
             //System.out.println("mauvaise syntaxe dans l'expression");
@@ -91,6 +99,10 @@ public class Equation {
         return name;
     }
 
+    public CheckBox getSelect() {
+        return select;
+    }
+
     public static void setEquations(Vector<Equation> equations) {
         Equation.equations = equations;
     }
@@ -103,9 +115,15 @@ public class Equation {
         this.interval = interval;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
+
+    public void setSelect(CheckBox select) {
+        this.select = select;
+    }
+
+    public static void deleteEquation(int i){equations.remove(i);}
 
     //calcul des valeurs de l'expression de fonction
     public Vector<Double> calcFunc() throws IntervalException {
