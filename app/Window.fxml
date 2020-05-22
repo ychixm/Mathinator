@@ -13,8 +13,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
+
 <VBox prefHeight="660.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controller">
-   <children>
+    <children>
       <TabPane prefHeight="661.0" prefWidth="918.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Draw">

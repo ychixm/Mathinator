@@ -15,7 +15,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../app/Window.fxml"));
         primaryStage.setTitle("Mathinator");
-        primaryStage.setScene(new Scene(root));
+        Scene window = new Scene(root);
+        window.getStylesheets().add(getClass().getResource("../app/window.css").toExternalForm());
+        primaryStage.setScene(window);
         primaryStage.show();
     }
 
