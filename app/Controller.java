@@ -1,9 +1,9 @@
 package app;
 
-import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -46,22 +46,15 @@ public class Controller implements Initializable{
     @FXML
     private Button integral;
     @FXML
+    private Button clear;
+    @FXML
     private TableView<Equation> storedEquation;
     @FXML
     private TableView<Equation> storage;
     @FXML
     private LineChart<Double,Double> graph;
 
-    //ajouté et a ranger
-    @FXML
-    private Button solve;
-    @FXML
-    private ChoiceBox solver;
-    @FXML
-    private TextField value;
-
-    private void drawGraph(char c) throws IntervalException {
-        Equation e = new Equation(input.getText());
+    private void drawGraph(char c, Equation e) throws IntervalException {
         Pair<Vector<Double>,Vector<Double>> tmp;
         switch (c){
             case 'd':
@@ -86,11 +79,13 @@ public class Controller implements Initializable{
     }
 
     private void drawGraphD() throws IntervalException {
-        drawGraph('d');
+        Equation e = new Equation(input.getText());
+        drawGraph('d',e);
     }
 
     private void drawGraphP() throws IntervalException {
-        drawGraph('p');
+        Equation e = new Equation(input.getText());
+        drawGraph('p',e);
     }
 
     private void refresh(){
@@ -114,8 +109,8 @@ public class Controller implements Initializable{
             select.setCellValueFactory(new PropertyValueFactory<>("select"));
             storage.getColumns().add(select);
         }
-        if(list == storedEquation){
-            TableColumn<Equation,Boolean> draw = new TableColumn<Equation, Boolean>("draw");
+        if(list == storedEquation) {
+            TableColumn<Equation, Boolean> draw = new TableColumn<Equation, Boolean>("draw");
             draw.setCellValueFactory(new PropertyValueFactory<>("draw"));
             storedEquation.getColumns().add(draw);
         }
@@ -126,14 +121,30 @@ public class Controller implements Initializable{
         list.setItems(data);
     }
 
-    private void store(){
-        Equation.getEquations().add(new Equation(input.getText()));
+
+    private void clearGraph(){
+        graph.getData().clear();
     }
 
-    private void refreshSolver(){
-        ObservableList<Equation> list = FXCollections.observableList(Equation.getEquations());
-        solver.setItems(list);
+    private void store(){
+        Equation.getEquations().add(new Equation(input.getText()));
+        Equation.getEquations().lastElement().getDraw().selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
+                clearGraph();
+                for (Equation e:Equation.getEquations()) {
+                    if(e.getDraw().isSelected()){
+                        try {
+                            drawGraph('a',e);
+                        } catch (IntervalException intervalException) {
+                            intervalException.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        refresh();
     }
+
 
     public void initialize(URL url, ResourceBundle resourceBundle){
         displayTableView(storedEquation);
@@ -147,7 +158,8 @@ public class Controller implements Initializable{
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
                 try {
-                    drawGraph('a');
+                    Equation e = new Equation(input.getText());
+                    drawGraph('a',e);
                 } catch (IntervalException e) {
                     e.printStackTrace();
                 }
@@ -196,10 +208,9 @@ public class Controller implements Initializable{
                 }
             }
         });
-        //ajouté
-        solver.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent actionEvent) {
-                refreshSolver();
+        clear.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                clearGraph();
             }
         });
     }
