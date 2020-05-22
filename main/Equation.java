@@ -136,7 +136,7 @@ public class Equation {
         //mise en place de la pile pour calculer dans l'ordre
         Stack<String> pile = new Stack<String>();
         //fonction de pile :
-        //pile = fonctionPile();
+        pile = pileFonction();
 
 
 
@@ -154,7 +154,7 @@ public class Equation {
     //Fonction pour set la pile de calcul des valeurs de la fonction
     public Stack<String> pileFonction(){
         Stack<String> pile = new Stack<String>();
-        //faire la pile
+
         return pile;
     }
 
