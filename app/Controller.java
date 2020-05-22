@@ -15,12 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.event.ActionEvent;
+import javafx.util.Pair;
 import main.Equation;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import main.IntervalException;
 import org.mariuszgromada.math.mxparser.*;
 
 
@@ -48,15 +50,25 @@ public class Controller implements Initializable{
     @FXML
     private LineChart<String,Double> graph;
 
-    private void drawGraph(){
+    private void drawGraph() throws IntervalException {
+        Equation e = new Equation(input.getText());
+        Pair<Vector<String>,Vector<Double>> tmp = e.calcFunc();
+
         XYChart.Series<String,Double> a = new XYChart.Series<String, Double>();
-        a.setName("plop");
+        a.setName(e.getName());
+        for(int i = 0 ; i < tmp.getKey().size(); i++){
+
+            a.getData().add(new XYChart.Data<String, Double>(tmp.getKey().elementAt(i),tmp.getValue().elementAt(i)));
+        }
+        graph.setCreateSymbols(false);
+        graph.getData().add(a);
+        /*a.setName("plop");
         a.getData().add(new XYChart.Data<String, Double>("1.0",1.0));
         a.getData().add(new XYChart.Data<String, Double>("1.0",2.0));
         a.getData().add(new XYChart.Data<String, Double>("2.0",3.0));
         a.getData().add(new XYChart.Data<String, Double>("2.0",2.0));
         graph.setCreateSymbols(false);
-        graph.getData().add(a);
+        graph.getData().add(a);*/
     }
 
     private void refresh(){
@@ -93,8 +105,8 @@ public class Controller implements Initializable{
 
         fex.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
-                Equation.getEquations().add(new Equation("x^2","f","-2;2"));
-                Equation.getEquations().add(new Equation("x^2","g","-2,2"));
+                Equation.getEquations().add(new Equation("x^2","f","-2;2","x"));
+                Equation.getEquations().add(new Equation("x^2","g","-2,2","x"));
             }
         });
         store.setOnAction(new EventHandler<ActionEvent>(){
@@ -105,7 +117,11 @@ public class Controller implements Initializable{
         draw.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
-                drawGraph();
+                try {
+                    drawGraph();
+                } catch (IntervalException e) {
+                    e.printStackTrace();
+                }
             }
         });
         delete.setOnAction(new EventHandler<ActionEvent>(){
@@ -135,8 +151,6 @@ public class Controller implements Initializable{
         });
         derivative.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
-                Expression e = new Expression("cos(1) - der(sin(x), x, 1)");
-                mXparser.consolePrintln("Res: " + e.getExpressionString() + " = " + e.calculate());
             }
         });
     }
