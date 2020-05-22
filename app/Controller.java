@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import org.mariuszgromada.math.mxparser.*;
+
 
 public class Controller implements Initializable{
     @FXML
@@ -37,6 +39,8 @@ public class Controller implements Initializable{
     private Button refreshA;
     @FXML
     private Button refreshB;
+    @FXML
+    private Button derivative;
     @FXML
     private TableView<Equation> storedEquation;
     @FXML
@@ -127,6 +131,12 @@ public class Controller implements Initializable{
         refreshB.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 refresh();
+            }
+        });
+        derivative.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                Expression e = new Expression("cos(1) - der(sin(x), x, 1)");
+                mXparser.consolePrintln("Res: " + e.getExpressionString() + " = " + e.calculate());
             }
         });
     }

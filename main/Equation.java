@@ -2,7 +2,6 @@ package main;
 
 import javafx.scene.control.CheckBox;
 
-import java.awt.*;
 import java.util.Stack;
 import java.util.Vector;
 
