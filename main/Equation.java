@@ -1,5 +1,9 @@
 package main;
 
+import app.Controller.*;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 
 import java.util.Stack;
@@ -17,6 +21,7 @@ public class Equation {
     private Double pas;
     private String nomVariable;
     private CheckBox select;
+    private CheckBox draw;
 
     private static Vector<Equation> equations = new Vector<Equation>();
 
@@ -26,6 +31,7 @@ public class Equation {
         this.name = "";
         this.interval = "";
         this.select = new CheckBox();
+        this.draw = new CheckBox();
         this.nomVariable = "x";
         this.bornInf = 0.00;
         this.bornSup = 10.00;
@@ -38,6 +44,7 @@ public class Equation {
         this.name = name;
         this.interval = interval;
         this.select = new CheckBox();
+        this.draw = new CheckBox();
         this.nomVariable = var;
         this.bornInf = inf;
         this.bornSup = sup;
@@ -56,6 +63,7 @@ public class Equation {
             this.name = expr[0];
             this.interval = expr[2];
             this.select = new CheckBox();
+            this.draw = new CheckBox();
 
         } catch (SizeExprException e) {
             e.printStackTrace();
@@ -226,6 +234,10 @@ public class Equation {
         return select;
     }
 
+    public CheckBox getDraw() {
+        return draw;
+    }
+
     public static void setEquations(Vector<Equation> equations) {
         Equation.equations = equations;
     }
@@ -265,26 +277,10 @@ public class Equation {
 
     }
 
-    //calcul des valeurs de l'expression de la fonction dérivée
-    public Pair<Vector<Double>,Vector<Double>> calcFuncDeriv() throws IntervalException {
-
-        //calcul des valeurs de la fonction dérivée
-        Vector<Double> X = new Vector<Double>();
-        Vector<Double> Y = new Vector<Double>();
-        for (Double i = bornInf; i <= bornSup; i = i + pas){
-            Expression e = new Expression("der("+this.expression+","+this.nomVariable+","+i.toString()+")");
-            Y.add(e.calculate());
-            X.add(i);
-        }
-
-        Pair<Vector<Double>,Vector<Double>> valFunc = new Pair<>(X,Y);
-        return valFunc;
-
+    private void displayed(){
+        this.draw.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
+            }
+        });
     }
-
-
-
-
-
-
 }

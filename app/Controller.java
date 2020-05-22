@@ -62,13 +62,6 @@ public class Controller implements Initializable{
         }
         graph.setCreateSymbols(false);
         graph.getData().add(a);
-        /*a.setName("plop");
-        a.getData().add(new XYChart.Data<String, Double>("1.0",1.0));
-        a.getData().add(new XYChart.Data<String, Double>("1.0",2.0));
-        a.getData().add(new XYChart.Data<String, Double>("2.0",3.0));
-        a.getData().add(new XYChart.Data<String, Double>("2.0",2.0));
-        graph.setCreateSymbols(false);
-        graph.getData().add(a);*/
     }
 
     private void refresh(){
@@ -81,15 +74,23 @@ public class Controller implements Initializable{
         TableColumn<Equation,String> name = new TableColumn<Equation,String>("name");
         TableColumn<Equation,String> expression = new TableColumn<Equation,String>("expression");
         TableColumn<Equation,String> interval = new TableColumn<Equation,String>("interval");
-        TableColumn<Equation,Boolean> select = new TableColumn<Equation,Boolean>("select");
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         expression.setCellValueFactory(new PropertyValueFactory<>("expression"));
         interval.setCellValueFactory(new PropertyValueFactory<>("interval"));
-        select.setCellValueFactory(new PropertyValueFactory<>("select"));
 
         list.getColumns().addAll(name,expression,interval);
-        storage.getColumns().add(select);
+        if(list == storage){
+            TableColumn<Equation,Boolean> select = new TableColumn<Equation,Boolean>("select");
+            select.setCellValueFactory(new PropertyValueFactory<>("select"));
+            storage.getColumns().add(select);
+        }
+        if(list == storedEquation){
+            TableColumn<Equation,Boolean> draw = new TableColumn<Equation, Boolean>("draw");
+            draw.setCellValueFactory(new PropertyValueFactory<>("draw"));
+            storedEquation.getColumns().add(draw);
+        }
+
         Equation[] temp = new Equation[Equation.getEquations().size()];
 
         ObservableList<Equation> data = FXCollections.observableArrayList(Equation.getEquations().toArray(temp));
@@ -97,18 +98,12 @@ public class Controller implements Initializable{
     }
 
     private void store(){
+        Equation.getEquations().add(new Equation(input.getText()));
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
-        //displayTableView(storedEquation);
+        displayTableView(storedEquation);
         displayTableView(storage);
-
-        //fex.setOnAction(new EventHandler<ActionEvent>(){
-        //    public void handle (ActionEvent ae){
-        //        Equation.getEquations().add(new Equation("x^2","f","-2;2","x"));
-        //        Equation.getEquations().add(new Equation("x^2","g","-2,2","x"));
-        //    }
-        //});
         store.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 store();
