@@ -23,7 +23,7 @@
                         <Button fx:id="store" layoutX="27.0" layoutY="117.0" mnemonicParsing="false" text="Store" />
                         <LineChart fx:id="graph" layoutX="244.0" prefHeight="626.0" prefWidth="673.0">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <NumberAxis side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />

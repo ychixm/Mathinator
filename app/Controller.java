@@ -48,17 +48,17 @@ public class Controller implements Initializable{
     @FXML
     private TableView<Equation> storage;
     @FXML
-    private LineChart<String,Double> graph;
+    private LineChart<Double,Double> graph;
 
     private void drawGraph() throws IntervalException {
         Equation e = new Equation(input.getText());
-        Pair<Vector<String>,Vector<Double>> tmp = e.calcFunc();
+        Pair<Vector<Double>,Vector<Double>> tmp = e.calcFunc();
 
-        XYChart.Series<String,Double> a = new XYChart.Series<String, Double>();
+        XYChart.Series<Double,Double> a = new XYChart.Series<Double, Double>();
         a.setName(e.getName());
         for(int i = 0 ; i < tmp.getKey().size(); i++){
 
-            a.getData().add(new XYChart.Data<String, Double>(tmp.getKey().elementAt(i),tmp.getValue().elementAt(i)));
+            a.getData().add(new XYChart.Data<Double, Double>(tmp.getKey().elementAt(i),tmp.getValue().elementAt(i)));
         }
         graph.setCreateSymbols(false);
         graph.getData().add(a);

@@ -173,7 +173,7 @@ public class Equation {
     public static void deleteEquation(int i){equations.remove(i);}
 
     //calcul des valeurs de l'expression de fonction
-    public Pair<Vector<String>,Vector<Double>> calcFunc() throws IntervalException {
+    public Pair<Vector<Double>,Vector<Double>> calcFunc() throws IntervalException {
         //récupération de l'intervalle et du pas
         // ATTENTION : Tester String vide si rend un tableau vide
         String tmp = this.interval.replaceAll(" ","");
@@ -224,15 +224,15 @@ public class Equation {
         //reprise du code bon
 
         Function f = new Function(this.name, this.expression, this.nomVariable);
-        Vector<String> X = new Vector<String>();
+        Vector<Double> X = new Vector<Double>();
         Vector<Double> Y = new Vector<Double>();
         for (Double i = bornInf; i <= bornSup; i = i + pas){
             //System.out.println(("i="+i));
             Y.add(f.calculate(i));
-            X.add(i.toString());
+            X.add(i);
         }
 
-        Pair<Vector<String>,Vector<Double>> valFunc = new Pair<>(X,Y);
+        Pair<Vector<Double>,Vector<Double>> valFunc = new Pair<>(X,Y);
         return valFunc;
 
     }
