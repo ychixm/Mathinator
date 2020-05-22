@@ -64,6 +64,20 @@ public class Controller implements Initializable{
         graph.getData().add(a);
     }
 
+    private void drawGraphd() throws IntervalException {
+        Equation e = new Equation(input.getText());
+        Pair<Vector<Double>,Vector<Double>> tmp = e.calcFuncDeriv();
+
+        XYChart.Series<Double,Double> a = new XYChart.Series<Double, Double>();
+        a.setName(e.getName());
+        for(int i = 0 ; i < tmp.getKey().size(); i++){
+
+            a.getData().add(new XYChart.Data<Double, Double>(tmp.getKey().elementAt(i),tmp.getValue().elementAt(i)));
+        }
+        graph.setCreateSymbols(false);
+        graph.getData().add(a);
+    }
+
     private void refresh(){
         displayTableView(storedEquation);
         displayTableView(storage);
@@ -129,7 +143,7 @@ public class Controller implements Initializable{
                     }
                 }
                 for(int j = 0 ; j < tmp.size() ; j++){
-                    Equation.deleteEquation(tmp.elementAt(j));
+                    Equation.deleteEquation(tmp.elementAt(j)-j);
                 }
                 refresh();
             }
@@ -146,6 +160,11 @@ public class Controller implements Initializable{
         });
         derivative.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
+                try {
+                    drawGraphd();
+                } catch (IntervalException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
