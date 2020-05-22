@@ -34,8 +34,6 @@ public class Controller implements Initializable{
     @FXML
     private Button store;
     @FXML
-    private Button fex;
-    @FXML
     private Button delete;
     @FXML
     private Button refreshA;
@@ -44,15 +42,28 @@ public class Controller implements Initializable{
     @FXML
     private Button derivative;
     @FXML
+    private Button integral;
+    @FXML
     private TableView<Equation> storedEquation;
     @FXML
     private TableView<Equation> storage;
     @FXML
     private LineChart<Double,Double> graph;
 
-    private void drawGraph() throws IntervalException {
+    private void drawGraph(char c) throws IntervalException {
         Equation e = new Equation(input.getText());
-        Pair<Vector<Double>,Vector<Double>> tmp = e.calcFunc();
+        Pair<Vector<Double>,Vector<Double>> tmp;
+        switch (c){
+            case 'd':
+                tmp = e.calcFuncDeriv();
+                break;
+            case 'p':
+                tmp = e.calcFuncInt();
+                break;
+            default:
+                tmp = e.calcFunc();
+                break;
+        }
 
         XYChart.Series<Double,Double> a = new XYChart.Series<Double, Double>();
         a.setName(e.getName());
@@ -64,18 +75,12 @@ public class Controller implements Initializable{
         graph.getData().add(a);
     }
 
-    private void drawGraphd() throws IntervalException {
-        Equation e = new Equation(input.getText());
-        Pair<Vector<Double>,Vector<Double>> tmp = e.calcFuncDeriv();
+    private void drawGraphD() throws IntervalException {
+        drawGraph('d');
+    }
 
-        XYChart.Series<Double,Double> a = new XYChart.Series<Double, Double>();
-        a.setName(e.getName());
-        for(int i = 0 ; i < tmp.getKey().size(); i++){
-
-            a.getData().add(new XYChart.Data<Double, Double>(tmp.getKey().elementAt(i),tmp.getValue().elementAt(i)));
-        }
-        graph.setCreateSymbols(false);
-        graph.getData().add(a);
+    private void drawGraphP() throws IntervalException {
+        drawGraph('p');
     }
 
     private void refresh(){
@@ -127,7 +132,7 @@ public class Controller implements Initializable{
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
                 try {
-                    drawGraph();
+                    drawGraph('a');
                 } catch (IntervalException e) {
                     e.printStackTrace();
                 }
@@ -161,7 +166,16 @@ public class Controller implements Initializable{
         derivative.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 try {
-                    drawGraphd();
+                    drawGraphD();
+                } catch (IntervalException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        integral.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle (ActionEvent ae){
+                try {
+                    drawGraphP();
                 } catch (IntervalException e) {
                     e.printStackTrace();
                 }
