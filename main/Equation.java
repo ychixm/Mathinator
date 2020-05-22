@@ -1,12 +1,7 @@
 package main;
 
-import app.Controller.*;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 
-import java.util.Stack;
 import java.util.Vector;
 
 import javafx.util.Pair;
@@ -53,7 +48,9 @@ public class Equation {
     }
 
 
-    //constructeur utilisant une expression complete
+    /**
+     * @param equation String contenant l'entrée utilisateur.
+     * constructeur utilisant une expression complete*/
     public Equation(String equation){
         try {
             String[] expr = parseExpr(equation);
@@ -110,62 +107,9 @@ public class Equation {
 
     }
 
-    //méthode au cas où on a construit un objet vide et qu'on veut le remplir, fonctionne comme le dernier constructeur
-    public void addValue(String equation){
-        try {
-            String[] expr = parseExpr(equation);
-            this.expression = expr[1];
-            this.name = expr[0];
-            this.interval = expr[2];
-            this.select = new CheckBox();
-
-        } catch (SizeExprException e) {
-            //System.out.println("mauvaise syntaxe dans l'expression");
-            e.printStackTrace();
-        }
-
-        //récupération de l'intervalle et du pas
-        this.bornInf = 0.00;
-        this.bornSup = 10.00;
-        this.pas = 1.00 ;
-        try{
-            String tmp = this.interval.replaceAll(" ","");
-            String[] tmp2 = tmp.split(";");
-            if(tmp2.length == 2 || tmp2.length == 3){
-                this.bornInf = Double.parseDouble(tmp2[0]);
-                this.bornSup = Double.parseDouble(tmp2[1]);
-                if(tmp2.length == 3){
-                    this.pas = Double.parseDouble(tmp2[2]);
-
-                }
-
-            }
-            if(bornInf > bornSup){
-                throw new IntervalException();
-            }
-            else if(pas > bornSup - bornInf){
-                throw new IntervalException();
-            }
-        } catch (IntervalException e) {
-            e.printStackTrace();
-        }
-
-        //Le pas et l'intervalle sont set
-
-        //voir si le nom de la variable est entrée ou non
-        //voir si le nom de la variable est entrée ou non
-        if(this.name.matches("[A-Za-z]*[(][A-Za-z]*[)]")){
-            String[] getNewName = this.name.split("\\(");
-            this.name = getNewName[0];
-            this.nomVariable = getNewName[1].replaceAll("\\)", "");
-        }
-        else{
-            this.nomVariable = "x";
-        }
-    }
-
-    //fonction pour parser l'expression de l'équation
-    //l'expression doit être de la forme "name(variable) = expression = born inf;borne sup
+    /**
+     * fonction pour parser l'expression de l'équation
+     * l'expression doit être de la forme "name(variable) = expression = born inf;borne sup */
     private String[] parseExpr (String expr) throws SizeExprException{
         String tmp = expr.replaceAll(" ","");
         String[] tmp2 = tmp.split("=");
@@ -177,7 +121,9 @@ public class Equation {
         }
 
     }
-
+    /**
+     * Getteur de la de l'Objet equation
+     * */
     public String getNomVariable() {
         return this.nomVariable;
     }
@@ -197,6 +143,10 @@ public class Equation {
     public Double getPas() {
         return pas;
     }
+
+    /**
+     * Setteur de l'Objet equation
+     * */
 
     public void setBornInf(Double bornInf) {
         this.bornInf = bornInf;
@@ -258,9 +208,13 @@ public class Equation {
         this.select = select;
     }
 
+    /**
+     * Méthode supprimant l'équation à l'indice souhaité
+     * */
     public static void deleteEquation(int i){equations.remove(i);}
 
-    //calcul des valeurs de l'expression de fonction
+    /**
+     * calcul des valeurs de l'expression de fonction */
     public Pair<Vector<Double>,Vector<Double>> calcFunc() throws IntervalException {
 
         //calcul des valeurs de la fonction
@@ -277,7 +231,8 @@ public class Equation {
 
     }
 
-    //calcul des valeurs de l'expression de la fonction dérivée
+    /**
+     * calcul des valeurs de l'expression de la fonction dérivée */
     public Pair<Vector<Double>,Vector<Double>> calcFuncDeriv() throws IntervalException {
 
         //calcul des valeurs de la fonction dérivée
@@ -294,7 +249,8 @@ public class Equation {
 
     }
 
-    //calcul des valeurs de l'expression de la fonction intégrée
+    /**
+     * calcul des valeurs de l'expression de la fonction intégrée */
     public Pair<Vector<Double>,Vector<Double>> calcFuncInt() throws IntervalException {
 
         //calcul des valeurs de la fonction intégrée

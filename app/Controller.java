@@ -1,15 +1,12 @@
 package app;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.event.EventHandler;
@@ -21,11 +18,11 @@ import javafx.util.Pair;
 import main.Equation;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
 import main.IntervalException;
-import org.mariuszgromada.math.mxparser.*;
 
 
 public class Controller implements Initializable{
@@ -54,6 +51,10 @@ public class Controller implements Initializable{
     @FXML
     private LineChart<Double,Double> graph;
 
+    /**
+     * @param c caractère permettant le choix du type de tracé de graph p(primitive) d(dérivé) sinon un tracé classique de l'expression
+     * @param e equation que l'on souhaite tracer
+     * */
     private void drawGraph(char c, Equation e) throws IntervalException {
         Pair<Vector<Double>,Vector<Double>> tmp;
         switch (c){
@@ -88,11 +89,17 @@ public class Controller implements Initializable{
         drawGraph('p',e);
     }
 
+    /**
+     * fonction permettant de mettre à jour les différents visuels en cas d'ajout de donnés
+     * */
     private void refresh(){
         displayTableView(storedEquation);
         displayTableView(storage);
     }
-
+    /**
+     * @param list Tableview que l'on souhaite mette à jour.
+     * cette fonction crée/recréer la TableView souhaité
+     * */
     private void displayTableView(TableView<Equation> list){
         list.getColumns().clear();
         TableColumn<Equation,String> name = new TableColumn<Equation,String>("name");
@@ -121,13 +128,18 @@ public class Controller implements Initializable{
         list.setItems(data);
     }
 
-
+    /**
+     * Fonction supprimant les données du LineChart
+     * */
     private void clearGraph(){
         graph.getData().clear();
     }
 
-    private void store(){
-        Equation.getEquations().add(new Equation(input.getText()));
+    /**
+     * @param input String contenant l'entrée utilisateur à parser et à enregistrer dans un tableau
+     * */
+    private void store(String input){
+        Equation.getEquations().add(new Equation(input));
         Equation.getEquations().lastElement().getDraw().selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
                 clearGraph();
@@ -151,9 +163,10 @@ public class Controller implements Initializable{
         displayTableView(storage);
         store.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
-                store();
+                store(input.getText());
             }
         });
+
         draw.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 //Equation.addEquation(new Equation(input.getText()));
