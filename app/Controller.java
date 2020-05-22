@@ -212,8 +212,10 @@ public class Controller implements Initializable{
         String expr1e = "0";
         String expr2e = "0";
         for(Equation e : Equation.getEquations()){
-            if(e.getName() == expr1Name){
+            if(e.getName() == expr1Name ){
                 expr1e = e.getExpression();
+            }
+            if(e.getName() == expr2Name ){
                 expr2e = e.getExpression();
             }
         }
