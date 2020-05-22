@@ -103,12 +103,12 @@ public class Controller implements Initializable{
         //displayTableView(storedEquation);
         displayTableView(storage);
 
-        fex.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle (ActionEvent ae){
-                Equation.getEquations().add(new Equation("x^2","f","-2;2","x"));
-                Equation.getEquations().add(new Equation("x^2","g","-2,2","x"));
-            }
-        });
+        //fex.setOnAction(new EventHandler<ActionEvent>(){
+        //    public void handle (ActionEvent ae){
+        //        Equation.getEquations().add(new Equation("x^2","f","-2;2","x"));
+        //        Equation.getEquations().add(new Equation("x^2","g","-2,2","x"));
+        //    }
+        //});
         store.setOnAction(new EventHandler<ActionEvent>(){
             public void handle (ActionEvent ae){
                 store();

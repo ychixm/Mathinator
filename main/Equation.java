@@ -12,6 +12,9 @@ public class Equation {
     private String name;
     private String expression;
     private String interval;
+    private Double bornInf;
+    private Double bornSup;
+    private Double pas;
     private String nomVariable;
     private CheckBox select;
 
@@ -24,22 +27,27 @@ public class Equation {
         this.interval = "";
         this.select = new CheckBox();
         this.nomVariable = "x";
+        this.bornInf = 0.00;
+        this.bornSup = 10.00;
+        this.pas = 1.00 ;
     }
 
     //constructeur si on veut rentrer les paramètres à la mano
-    public Equation(String expr, String name, String interval, String var){
+    public Equation(String expr, String name, String interval, String var, Double sup, Double inf, Double pas){
         this.expression = expr;
         this.name = name;
         this.interval = interval;
         this.select = new CheckBox();
         this.nomVariable = var;
+        this.bornInf = inf;
+        this.bornSup = sup;
+        this.pas = pas ;
 
     }
 
 
     //constructeur utilisant une expression complete
     public Equation(String equation){
-        //System.out.println(equation);
         try {
             String[] expr = parseExpr(equation);
 
@@ -53,10 +61,47 @@ public class Equation {
         } catch (SizeExprException e) {
             e.printStackTrace();
         }
+
+
+        //récupération de l'intervalle et du pas
+        this.bornInf = 0.00;
+        this.bornSup = 10.00;
+        this.pas = 1.00 ;
+        try{
+            String tmp = this.interval.replaceAll(" ","");
+            String[] tmp2 = tmp.split(";");
+            if(tmp2.length == 2 || tmp2.length == 3){
+                this.bornInf = Double.parseDouble(tmp2[0]);
+                this.bornSup = Double.parseDouble(tmp2[1]);
+                if(tmp2.length == 3){
+                    this.pas = Double.parseDouble(tmp2[2]);
+
+                }
+
+            }
+            if(bornInf > bornSup){
+                throw new IntervalException();
+            }
+            else if(pas > bornSup - bornInf){
+                throw new IntervalException();
+            }
+        } catch (IntervalException e) {
+            e.printStackTrace();
+        }
+        //Le pas et l'intervalle sont set
+
         //voir si le nom de la variable est entrée ou non
         //ATTENTION : A TESTER
         //try{
-        //    boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
+        //boolean varIsIn = false;
+        //String name2 = this.name;
+
+        //for(char elt : name2.toCharArray()){
+        //    if(elt == "("){
+        //        varIsIn = true;
+        //    }
+        //}
+        //System.out.println(varIsIn);
         //    if (test == true){
         //        String[] split = this.name.split("[\\(]", 1);
         //        split[1].replaceAll("[\\(]", "");
@@ -87,21 +132,49 @@ public class Equation {
             //System.out.println("mauvaise syntaxe dans l'expression");
             e.printStackTrace();
         }
-        try{
-            boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
-            if (test == true){
-                String[] split = this.name.split("[\\(]", 1);
-                split[1].replaceAll("[\\(]", "");
-                split[1].replaceAll("[\\)]", "");
-                this.nomVariable = split[1];
-            }
-            else {
-                throw new PasDeVariableException();
-            }
 
-        } catch (PasDeVariableException e) {
+        //récupération de l'intervalle et du pas
+        this.bornInf = 0.00;
+        this.bornSup = 10.00;
+        this.pas = 1.00 ;
+        try{
+            String tmp = this.interval.replaceAll(" ","");
+            String[] tmp2 = tmp.split(";");
+            if(tmp2.length == 2 || tmp2.length == 3){
+                this.bornInf = Double.parseDouble(tmp2[0]);
+                this.bornSup = Double.parseDouble(tmp2[1]);
+                if(tmp2.length == 3){
+                    this.pas = Double.parseDouble(tmp2[2]);
+
+                }
+
+            }
+            if(bornInf > bornSup){
+                throw new IntervalException();
+            }
+            else if(pas > bornSup - bornInf){
+                throw new IntervalException();
+            }
+        } catch (IntervalException e) {
             e.printStackTrace();
         }
+
+        //Le pas et l'intervalle sont set
+        //try{
+        //    boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
+        //    if (test == true){
+        //        String[] split = this.name.split("[\\(]", 1);
+        //        split[1].replaceAll("[\\(]", "");
+        //        split[1].replaceAll("[\\)]", "");
+        //        this.nomVariable = split[1];
+        //    }
+        //    else {
+        //        throw new PasDeVariableException();
+        //    }
+
+        //} catch (PasDeVariableException e) {
+        //    e.printStackTrace();
+        //}
     }
 
     //fonction pour parser l'expression de l'équation
@@ -174,60 +247,12 @@ public class Equation {
 
     //calcul des valeurs de l'expression de fonction
     public Pair<Vector<Double>,Vector<Double>> calcFunc() throws IntervalException {
-        //récupération de l'intervalle et du pas
-        // ATTENTION : Tester String vide si rend un tableau vide
-        String tmp = this.interval.replaceAll(" ","");
-        String[] tmp2 = tmp.split(";");
-        Double bornInf = 0.00;
-        Double bornSup = 10.00;
-        Double pas = 1.00 ;
-        //valeurs de l'intervalle avec pas non reconnues, on prendra des valeurs par défaut.
-        if(tmp2.length == 2 || tmp2.length == 3){
-            bornInf = Double.parseDouble(tmp2[0]);
-            bornSup = Double.parseDouble(tmp2[1]);
-            //System.out.println(bornInf);
-            //System.out.println(bornSup);
-            if(tmp2.length == 3){
-                pas = Double.parseDouble(tmp2[2]);
-                //System.out.println("pas ="+pas);
-            }
 
-        }
-        if(bornInf > bornSup){
-            throw new IntervalException();
-        }
-        else if(pas > bornSup - bornInf){
-            throw new IntervalException();
-        }
-        //Le pas et l'intervalle sont set
-
-
-        //Code pas bon en dessous
-
-
-        //mise en place de la pile pour calculer dans l'ordre
-        //Stack<String> pile = new Stack<String>();
-        //fonction de pile :
-        //pile = pileFonction();
-
-
-
-        //else{
-
-        //Vector<Double> valFunc = new Vector<Double>();
-        //for (Double i = bornInf; i < bornSup; i = i + pas){
-        //    valFunc.add(valeurCalc(pile, i));
-        //}
-
-        //return valFunc;
-
-        //reprise du code bon
-
+        //calcul des valeurs de la fonction
         Function f = new Function(this.name, this.expression, this.nomVariable);
         Vector<Double> X = new Vector<Double>();
         Vector<Double> Y = new Vector<Double>();
         for (Double i = bornInf; i <= bornSup; i = i + pas){
-            //System.out.println(("i="+i));
             Y.add(f.calculate(i));
             X.add(i);
         }
@@ -237,20 +262,7 @@ public class Equation {
 
     }
 
-    //Fonction pour set la pile de calcul des valeurs de la fonction
-    //public Stack<String> pileFonction(){
-    //    Stack<String> pile = new Stack<String>();
-    //
-    //    return pile;
-    //}
 
-    //public Double valeurCalc(Stack<String> pile, Double val){
-    //    Double valFinal = 0.00;
-    //    while(!pile.empty()){
-    //        //dépiler en remplaçant la variable par val
-    //     }
-    //    return valFinal;
-    //}
 
 
 }
