@@ -22,7 +22,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import org.mariuszgromada.math.mxparser.*;
+
 import main.IntervalException;
+
+import static org.mariuszgromada.math.mxparser.mathcollection.NumberTheory.max;
+import static org.mariuszgromada.math.mxparser.mathcollection.NumberTheory.min;
 
 
 public class Controller implements Initializable{
@@ -211,12 +216,24 @@ public class Controller implements Initializable{
         String expr2Name = expr2.getValue().toString();
         String expr1e = "0";
         String expr2e = "0";
+        Double inf1 = 0.0;
+        Double sup1 = 0.0;
+        Double pas1 = 0.0;
+        Double inf2 = 0.0;
+        Double sup2 = 0.0;
+        Double pas2 = 0.0;
         for(Equation e : Equation.getEquations()){
             if(e.getName() == expr1Name ){
                 expr1e = e.getExpression();
+                inf1 = e.getBornInf();
+                sup1 = e.getBornSup();
+                pas1 = e.getPas();
             }
             if(e.getName() == expr2Name ){
                 expr2e = e.getExpression();
+                inf2 = e.getBornInf();
+                sup2 = e.getBornSup();
+                pas2 = e.getPas();
             }
         }
         String solution = "0";
@@ -239,7 +256,7 @@ public class Controller implements Initializable{
             default:
                 break;
         }
-        store(name.getText()+" = "+solution +" = -20;20;0.1");
+        store(name.getText()+" = "+solution +" ="+min(inf1, inf2)+";"+max(sup1,sup2)+";"+min(pas1, pas2));
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){

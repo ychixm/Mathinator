@@ -61,6 +61,24 @@ public class Equation {
             String[] expr = parseExpr(equation);
 
 
+            if(expr[0].matches("[A-Za-z]*[(][A-Za-z]*[)]")){
+
+                String[] getNewName = expr[0].split("\\(");
+                expr[0] = getNewName[0];
+
+                this.nomVariable = getNewName[1].replaceAll("\\)", "");
+            }
+            else{
+                this.nomVariable = "x";
+            }
+
+
+            for(Equation elt : Equation.getEquations()){
+                if(expr[0].equals(elt.getName())){
+                    throw new SameNameException();
+                }
+            }
+
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
@@ -68,6 +86,8 @@ public class Equation {
             this.draw = new CheckBox();
 
         } catch (SizeExprException e) {
+            e.printStackTrace();
+        } catch (SameNameException e) {
             e.printStackTrace();
         }
 
@@ -100,14 +120,7 @@ public class Equation {
         //Le pas et l'intervalle sont set
 
         //voir si le nom de la variable est entrée ou non
-        if(this.name.matches("[A-Za-z]*[(][A-Za-z]*[)]")){
-            String[] getNewName = this.name.split("\\(");
-            this.name = getNewName[0];
-            this.nomVariable = getNewName[1].replaceAll("\\)", "");
-        }
-        else{
-            this.nomVariable = "x";
-        }
+
 
 
     }
