@@ -51,6 +51,8 @@ public class Controller implements Initializable{
     @FXML
     private Button solve;
     @FXML
+    private Button combine;
+    @FXML
     private Label solved;
     @FXML
     private TableView<Equation> storedEquation;
@@ -180,7 +182,7 @@ public class Controller implements Initializable{
     private void refreshChoice(){
         ArrayList<String> list = new ArrayList<String>();
         for (Equation elt : Equation.getEquations()){
-            list.add(elt.getName()+" = "+elt.getExpression());
+            list.add(elt.getName());
         }
         solver.setItems(FXCollections.observableArrayList(list.toArray()));
         expr1.setItems(FXCollections.observableArrayList(list.toArray()));
@@ -196,10 +198,44 @@ public class Controller implements Initializable{
         Double solution = 0.00;
         for(Equation e : Equation.getEquations()){
             if(e.getName() == solveEquaName){
-                solution = e.solveEqua(valueTextField);
+                solution = e.solveEquation(valueTextField);
             }
         }
         solved.setText(Double.toString(solution));
+    }
+
+    private void combineEquation(){
+        String expr1Name = expr1.getValue().toString();
+        String expr2Name = expr2.getValue().toString();
+        String expr1e = "0";
+        String expr2e = "0";
+        for(Equation e : Equation.getEquations()){
+            if(e.getName() == expr1Name){
+                expr1e = e.getExpression();
+                expr2e = e.getExpression();
+            }
+        }
+        String solution = "0";
+        switch (operation.getValue().toString().charAt(0)){
+            case '+':
+                solution = expr1e + "+(" + expr2e +")";
+                break;
+            case '-':
+                solution = expr1e + "-(" + expr2e +")";
+                break;
+            case '*':
+                solution = expr1e + "*(" + expr2e +")";
+                break;
+            case '/':
+                solution = expr1e + "/(" + expr2e +")";
+                break;
+            case '^':
+                solution = expr1e + "-^" + expr2e +")";
+                break;
+            default:
+                break;
+        }
+        store(name.getText()+" = "+solution +" = -5;5;0.1");
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -275,7 +311,10 @@ public class Controller implements Initializable{
                 solveEquation();
             }
         });
-
-
+        combine.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                combineEquation();
+            }
+        });
     }
 }

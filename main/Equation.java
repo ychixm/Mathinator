@@ -128,7 +128,7 @@ public class Equation {
 
     }
     /**
-     * Getteur de la de l'Objet equation
+     * Getter de la de l'Objet equation
      * */
     public String getNomVariable() {
         return this.nomVariable;
@@ -151,7 +151,7 @@ public class Equation {
     }
 
     /**
-     * Setteur de l'Objet equation
+     * Setter de l'Objet equation
      * */
 
     public void setBornInf(Double bornInf) {
@@ -279,7 +279,7 @@ public class Equation {
     /**
      * fonction pour résoudre une équation avec une valeur
      * */
-    public Double solveEqua(String[] param){
+    public Double solveEquation(String[] param){
         String[] interval = param[1].split(";");
         Expression e = new Expression("solve("+this.expression+"-"+param[0]+","+this.nomVariable+","+interval[0]+","+interval[1]+")");
         return e.calculate();
