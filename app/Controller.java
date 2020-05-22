@@ -213,6 +213,7 @@ public class Controller implements Initializable{
             if(e.getName() == expr1Name){
                 expr1e = e.getExpression();
                 expr2e = e.getExpression();
+                double inf = min()
             }
         }
         String solution = "0";
@@ -235,7 +236,7 @@ public class Controller implements Initializable{
             default:
                 break;
         }
-        store(name.getText()+" = "+solution +" = -5;5;0.1");
+        store(name.getText()+" = "+solution +" ="+ max()+";"+5+";"+0.1);
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle){
