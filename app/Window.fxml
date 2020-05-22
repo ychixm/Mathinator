@@ -19,8 +19,8 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="draw" layoutX="37.0" layoutY="56.0" mnemonicParsing="false" text="Draw" />
-                        <Button fx:id="store" layoutX="116.0" layoutY="56.0" mnemonicParsing="false" text="Store" />
+                        <Button fx:id="draw" layoutX="11.0" layoutY="56.0" mnemonicParsing="false" text="Draw" />
+                        <Button fx:id="store" layoutX="68.0" layoutY="56.0" mnemonicParsing="false" text="Store" />
                         <LineChart fx:id="graph" layoutX="244.0" prefHeight="626.0" prefWidth="673.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
@@ -31,15 +31,24 @@
                         </LineChart>
                         <TableView fx:id="storedEquation" layoutY="156.0" prefHeight="469.0" prefWidth="252.0" />
                         <TextField fx:id="input" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="248.0" />
-                        <Button fx:id="fex" layoutX="33.0" layoutY="105.0" mnemonicParsing="false" text="fex" />
-                        <Button layoutX="112.0" layoutY="105.0" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="fex" layoutX="126.0" layoutY="56.0" mnemonicParsing="false" text="fex" />
+                        <Button fx:id="refreshA" layoutX="175.0" layoutY="56.0" mnemonicParsing="false" text="Refresh" />
+                        <Button fx:id="derivative" layoutX="29.0" layoutY="110.0" mnemonicParsing="false" text="Derivative" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Futur">
+          <Tab text="Storage edit">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="storage" layoutX="28.0" layoutY="27.0" prefHeight="576.0" prefWidth="390.0" />
+                        <Button fx:id="refreshB" layoutX="450.0" layoutY="60.0" mnemonicParsing="false" text="Refresh" />
+                        <Button fx:id="delete" layoutX="453.0" layoutY="101.0" mnemonicParsing="false" text="Delete" />
+                        <Button layoutX="452.0" layoutY="147.0" mnemonicParsing="false" text="Button" />
+                        <Button layoutX="452.0" layoutY="186.0" mnemonicParsing="false" text="Button" />
+                        <Button layoutX="452.0" layoutY="229.0" mnemonicParsing="false" text="Button" />
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
