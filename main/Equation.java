@@ -55,7 +55,6 @@ public class Equation {
             this.expression = expr[1];
             this.name = expr[0];
             this.interval = expr[2];
-            this.nomVariable = expr[3];
             this.select = new CheckBox();
 
         } catch (SizeExprException e) {
@@ -91,30 +90,14 @@ public class Equation {
         //Le pas et l'intervalle sont set
 
         //voir si le nom de la variable est entrée ou non
-        //ATTENTION : A TESTER
-        //try{
-        //boolean varIsIn = false;
-        //String name2 = this.name;
-
-        //for(char elt : name2.toCharArray()){
-        //    if(elt == "("){
-        //        varIsIn = true;
-        //    }
-        //}
-        //System.out.println(varIsIn);
-        //    if (test == true){
-        //        String[] split = this.name.split("[\\(]", 1);
-        //        split[1].replaceAll("[\\(]", "");
-        //        split[1].replaceAll("[\\)]", "");
-        //        this.nomVariable = split[1];
-        //    }
-        //    else {
-        //        throw new PasDeVariableException();
-        //    }
-
-        //} catch (PasDeVariableException e) {
-        //    e.printStackTrace();
-        //}
+        if(this.name.matches("[A-Za-z]*[(][A-Za-z]*[)]")){
+            String[] getNewName = this.name.split("\\(");
+            this.name = getNewName[0];
+            this.nomVariable = getNewName[1].replaceAll("\\)", "");
+        }
+        else{
+            this.nomVariable = "x";
+        }
 
 
     }
@@ -160,21 +143,17 @@ public class Equation {
         }
 
         //Le pas et l'intervalle sont set
-        //try{
-        //    boolean test = this.name.matches("[\\(][A-Za-z]*[\\)]");
-        //    if (test == true){
-        //        String[] split = this.name.split("[\\(]", 1);
-        //        split[1].replaceAll("[\\(]", "");
-        //        split[1].replaceAll("[\\)]", "");
-        //        this.nomVariable = split[1];
-        //    }
-        //    else {
-        //        throw new PasDeVariableException();
-        //    }
 
-        //} catch (PasDeVariableException e) {
-        //    e.printStackTrace();
-        //}
+        //voir si le nom de la variable est entrée ou non
+        //voir si le nom de la variable est entrée ou non
+        if(this.name.matches("[A-Za-z]*[(][A-Za-z]*[)]")){
+            String[] getNewName = this.name.split("\\(");
+            this.name = getNewName[0];
+            this.nomVariable = getNewName[1].replaceAll("\\)", "");
+        }
+        else{
+            this.nomVariable = "x";
+        }
     }
 
     //fonction pour parser l'expression de l'équation
@@ -182,7 +161,7 @@ public class Equation {
     private String[] parseExpr (String expr) throws SizeExprException{
         String tmp = expr.replaceAll(" ","");
         String[] tmp2 = tmp.split("=");
-        if(tmp2.length !=4){
+        if(tmp2.length !=3){
             throw new SizeExprException();
         }
         else{
@@ -197,6 +176,30 @@ public class Equation {
 
     public void setNomVariable(String var) {
         this.nomVariable = var;
+    }
+
+    public Double getBornInf() {
+        return bornInf;
+    }
+
+    public Double getBornSup() {
+        return bornSup;
+    }
+
+    public Double getPas() {
+        return pas;
+    }
+
+    public void setBornInf(Double bornInf) {
+        this.bornInf = bornInf;
+    }
+
+    public void setBornSup(Double bornSup) {
+        this.bornSup = bornSup;
+    }
+
+    public void setPas(Double pas) {
+        this.pas = pas;
     }
 
     public static void addEquation(Equation e){
