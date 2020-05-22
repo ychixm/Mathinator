@@ -294,6 +294,25 @@ public class Equation {
 
     }
 
+    //calcul des valeurs de l'expression de la fonction intégrée
+    public Pair<Vector<Double>,Vector<Double>> calcFuncInt() throws IntervalException {
+
+        //calcul des valeurs de la fonction intégrée
+        Vector<Double> X = new Vector<Double>();
+        Vector<Double> Y = new Vector<Double>();
+        for (Double i = bornInf; i <= bornSup; i = i + pas){
+            Expression e = new Expression("int("+this.expression+","+this.nomVariable+",0,"+i.toString()+")");
+            Y.add(e.calculate());
+            X.add(i);
+        }
+
+        Pair<Vector<Double>,Vector<Double>> valFunc = new Pair<>(X,Y);
+        return valFunc;
+
+    }
+
+
+
     private void displayed(){
         this.draw.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
