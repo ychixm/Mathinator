@@ -1,7 +1,7 @@
 # Mathinator
 ## Require :
 javafx sdk 11 or later <br>
-mXparser jdk 11 or later
+mXparser jdk 11 or later (https://mathparser.org/mxparser-downloads/)
 ## Running
 Run the main in Mathinator/main/Main.java
 ## how to enter a funtion :
